@@ -1,6 +1,11 @@
 MIT License
 
+Copyright (c) 2025 opencode (https://github.com/anomalyco/opencode)
 Copyright (c) 2025 Huntagent contributors
+
+Huntagent is a fork of opencode. Portions of this software are copyright the
+opencode authors and are used under the terms of the MIT License; the original
+copyright notice above is retained as that license requires.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

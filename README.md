@@ -8,10 +8,15 @@ and session history never leave the host. It is a hard fork of the
 [opencode](https://github.com/anomalyco/opencode) agent engine, stripped of
 cloud tie-ins and refocused on offensive-security workflows.
 
-> [!WARNING]
-> Huntagent is for **authorized** security testing only — your own systems or
-> targets you have written permission to test. You are responsible for how you
-> use it.
+> [!CAUTION]
+> **Use Huntagent at your own risk.** It is for **authorized** security testing
+> only — your own systems, or targets you hold **explicit written permission**
+> to test. The agent runs real, potentially destructive commands on live hosts.
+> Running it against systems you do not own or are not authorized to test may be
+> **illegal** and is **entirely your responsibility**. The authors and
+> contributors accept **no liability** for any use, misuse, damage, data loss,
+> or legal consequence arising from this software. See the
+> [Disclaimer](#disclaimer) for the full terms.
 
 <!-- Badges -->
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](./LICENSE)
@@ -130,6 +135,40 @@ repository [style guide](./AGENTS.md).
 
 To report a vulnerability, see [SECURITY.md](./SECURITY.md). Do not open a
 public issue for security reports.
+
+## Disclaimer
+
+**Read this before you use Huntagent.**
+
+- **Authorized use only.** Huntagent is intended solely for security testing of
+  systems you own or for which you hold **explicit, written authorization** to
+  test. You alone are responsible for obtaining that authorization before you
+  point it at anything.
+- **It executes real commands.** Huntagent drives real tooling (nmap, nikto,
+  sqlmap, and anything else it decides to install and run) against live targets,
+  and can run commands that modify, damage, or destroy data and systems. Review
+  every action it asks to take before you approve it.
+- **Legality is on you.** Accessing or testing computers, networks, or accounts
+  without authorization is a crime in most jurisdictions (for example the U.S.
+  Computer Fraud and Abuse Act, the UK Computer Misuse Act, and equivalents
+  elsewhere). Ensuring your use complies with all applicable laws, regulations,
+  and contracts is **your sole responsibility**.
+- **No warranty.** This software is provided **"as is", without warranty of any
+  kind**, express or implied, including but not limited to the warranties of
+  merchantability, fitness for a particular purpose, and non-infringement.
+- **No liability.** In no event shall the authors, contributors, or copyright
+  holders be liable for any claim, damages, data loss, service disruption, cost,
+  or other liability — whether in contract, tort, or otherwise — arising from,
+  out of, or in connection with the software or its use. **If you use Huntagent,
+  you do so entirely at your own risk, and we are not responsible for the
+  outcome.**
+- **Not affiliated.** Huntagent is an independent hard fork of
+  [opencode](https://github.com/anomalyco/opencode) and is not endorsed by or
+  affiliated with its upstream authors or any tool vendor it invokes.
+
+By downloading, building, or running Huntagent, you acknowledge that you have
+read and agree to the above, to the [Acceptable Use Policy](./USAGE_POLICY.md),
+and to the terms of the [LICENSE](./LICENSE).
 
 ## License
 

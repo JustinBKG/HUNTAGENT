@@ -10,7 +10,9 @@ closed. Write your report in your own words.
 Huntagent is an offensive-security agent with access to powerful tools
 including shell execution, file operations, and network/web access. Use it only
 against systems you own or have explicit written authorization to test. Misuse
-is your responsibility, not a vulnerability in the project.
+is your responsibility, not a vulnerability in the project. See the
+[Acceptable Use Policy](./USAGE_POLICY.md) for the full terms you agree to by
+running Huntagent.
 
 ## Threat Model
 
@@ -54,8 +56,9 @@ Please disclose responsibly. Do **not** open a public issue for security
 reports.
 
 To report a security issue, use the GitHub Security Advisory
-["Report a Vulnerability"](https://github.com/JustinBKG/huntagent/security/advisories/new)
-tab, or email the maintainers at `<security-contact>`.
+["Report a Vulnerability"](https://github.com/JustinBKG/HUNTAGENT/security/advisories/new)
+tab. This opens a private channel visible only to the maintainers — do not
+disclose the issue publicly until a fix is released.
 
 You will receive a response with next steps, and updates on progress toward a
 fix.
