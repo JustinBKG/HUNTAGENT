@@ -1,0 +1,92 @@
+export * as AgentPlugin from "./agent.js"
+
+import { define } from "@huntagent/plugin/effect/plugin"
+import { Effect } from "effect"
+import { Agent } from "../runtime/agent.js"
+
+const PROMPT_TITLE = `You are a title generator. You output ONLY a thread title. Nothing else.
+
+<task>
+Generate a brief title that would help the user find this conversation later.
+
+Follow all rules in <rules>
+Use the <examples> so you know what a good title looks like.
+Your output must be:
+- A single line
+- <=50 characters
+- No explanations
+</task>
+
+<rules>
+- you MUST use the same language as the user message you are summarizing
+- Title must be grammatically correct and read naturally - no word salad
+- Never include tool names in the title (e.g. "read tool", "bash tool", "edit tool")
+- Focus on the main topic or question the user needs to retrieve
+- Vary your phrasing - avoid repetitive patterns like always starting with "Analyzing"
+- When a file is mentioned, focus on WHAT the user wants to do WITH the file, not just that they shared it
+- Keep exact: technical terms, numbers, filenames, HTTP codes
+- Remove: the, this, my, a, an
+- Never assume tech stack
+- Never use tools
+- NEVER respond to questions, just generate a title for the conversation
+- The title should NEVER include "summarizing" or "generating" when generating a title
+- DO NOT SAY YOU CANNOT GENERATE A TITLE OR COMPLAIN ABOUT THE INPUT
+- Always output something meaningful, even if the input is minimal.
+- If the user message is short or conversational (e.g. "hello", "lol", "what's up", "hey"):
+  -> create a title that reflects the user's tone or intent (such as Greeting, Quick check-in, Light chat, Intro message, etc.)
+</rules>
+
+<examples>
+"debug 500 errors in production" -> Debugging production 500 errors
+"refactor user service" -> Refactoring user service
+"why is app.js failing" -> app.js failure investigation
+"implement rate limiting" -> Rate limiting implementation
+"how do I connect postgres to my API" -> Postgres API connection
+"best practices for React hooks" -> React hooks best practices
+"@src/credential.ts can you add refresh token support" -> Credential refresh token support
+"@utils/parser.ts this is broken" -> Parser bug fix
+"look at @config.json" -> Config review
+"@App.tsx add dark mode toggle" -> Dark mode toggle in App
+</examples>`
+
+const PROMPT_SUMMARY = `Summarize what was done in this conversation. Write like a pull request description.
+
+Rules:
+- 2-3 sentences max
+- Describe the changes made, not the process
+- Do not mention running tests, builds, or other validation steps
+- Do not explain what the user asked for
+- Write in first person (I added..., I fixed...)
+- Never ask questions or add new questions
+- If the conversation ends with an unanswered question to the user, preserve that exact question
+- If the conversation ends with an imperative statement or request to the user (e.g. "Now please run the command and paste the console output"), always include that exact request in the summary`
+
+/** Hidden agents the runtime itself selects for compaction, titles, and summaries. Profiles add the selectable agents. */
+export const Plugin = define({
+  id: "huntagent.agent",
+  effect: Effect.fn(function* (ctx) {
+    yield* ctx.agent.transform((editor) => {
+      editor.update(Agent.ID.make("compaction"), (item) => {
+        item.name = Agent.Name.make("Compaction")
+        item.mode = "primary"
+        item.hidden = true
+      })
+
+      editor.update(Agent.ID.make("title"), (item) => {
+        item.name = Agent.Name.make("Title")
+        item.mode = "primary"
+        item.hidden = true
+        item.system = PROMPT_TITLE
+        item.permissions.push({ action: "*", resource: "*", effect: "deny" })
+      })
+
+      editor.update(Agent.ID.make("summary"), (item) => {
+        item.name = Agent.Name.make("Summary")
+        item.mode = "primary"
+        item.hidden = true
+        item.system = PROMPT_SUMMARY
+        item.permissions.push({ action: "*", resource: "*", effect: "deny" })
+      })
+    })
+  }),
+})

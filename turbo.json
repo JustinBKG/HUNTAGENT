@@ -1,0 +1,44 @@
+{
+  "$schema": "https://v2-8-13.turborepo.dev/schema.json",
+  "globalDependencies": [
+    "patches/**",
+    "bunfig.toml",
+    ".npmrc",
+    "package.json"
+  ],
+  "globalEnv": ["CI", "OPENCODE_DISABLE_SHARE"],
+  "globalPassThroughEnv": ["CI", "OPENCODE_DISABLE_SHARE"],
+  "tasks": {
+    "typecheck": {},
+    "@huntagent/cli#typecheck": {
+      "dependsOn": ["@huntagent/core#typecheck"]
+    },
+    "@huntagent/sdk#typecheck": {
+      "dependsOn": ["@huntagent/core#typecheck"]
+    },
+    "@huntagent/server#typecheck": {
+      "dependsOn": ["@huntagent/core#typecheck"]
+    },
+    "@huntagent/tui#typecheck": {
+      "dependsOn": ["@huntagent/core#typecheck"]
+    },
+    "build": {
+      "dependsOn": ["transit"],
+      "outputs": ["dist/**"]
+    },
+    // Workspace packages export their sources, so tests never wait for a dependency's build; the build job in
+    // test.yml checks the library builds. No package has a transit script: it runs nothing and only folds every
+    // workspace dependency into the test hash.
+    "transit": {
+      "dependsOn": ["^transit"]
+    },
+    // Every package with a test script runs here, so a new suite cannot be left out of CI.
+    "test": {
+      "dependsOn": ["transit"],
+      "outputs": []
+    },
+    "@huntagent/sdk#verify:package": {
+      "outputs": []
+    }
+  }
+}
